@@ -1,0 +1,1 @@
+mysqli_query("SELECT id_mahasiswa.mhs_nm FROM tb_mahasiswa_nilai LEFT JOIN  id_mahasiswa ON tb_mahasiswa_nilai.mhs_id = id_mahasiswa.mhs_id LEFT JOIN mk_id ON  mk_id.mk_id = tb_mahasiswa_nilai.mk_id WHERE mk_id.mk_kode = 'MK303' ORDER BY tb_mahasiswa_nilai.nilai  DESC LIMIT 1")
