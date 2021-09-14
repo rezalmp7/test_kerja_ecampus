@@ -3,6 +3,19 @@
     $thisPage = 'main';
     
     include 'config/koneksi.php';
+
+    if($_GET['id'] != null)
+    {
+        if(isset($_GET['id']))
+        {
+            $id_instansi = $_GET['id'];
+            $query_data_instansi = mysqli_query($koneksi, "SELECT * FROM instansi WHERE id='$id_instansi'");
+            $data_instansi = mysqli_fetch_array($query_data_instansi);
+        }
+        else {
+            header('location: index.php');
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,44 +66,30 @@
     }
     ?>
     <div class="uk-width-1-1 uk-padding-remove uk-margin-remove" id="login">
-        <div class="uk-width-1-1 uk-padding-remove uk-margin-small-bottom">
-            <ul class="uk-breadcrumb">
-                <li><a href="#">Referensi</a></li>
-                <li><span>Instansi</span></li>
-            </ul>
-        </div>
+        <h2>Edit Instansi</h2>
         <div class="uk-width-1-1 uk-padding-small uk-margin-remove">
-            <a href="tambah.php" class="uk-button uk-button-primary">Tambah</a>
-            <table class="uk-table uk-table-divider">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Aksi</th>
-                        <th>Instansi</th>
-                        <th>Deskripsi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $i = 1;
-                    $query_data_pelanggan = mysqli_query($koneksi, "SELECT * FROM instansi");
-                    foreach ($query_data_pelanggan as $a) {
-                    ?>
-                    <tr>
-                        <td><?php echo $i; ?></td>
-                        <td>
-                            <a href="edit.php?id=<?php echo $a['id']; ?>" class="uk-button uk-button-primary">Edit</a>
-                            <a href="fungsi/hapus.php?id=<?php echo $a['id']; ?>" class="uk-button uk-button-secondary">Hapus</a>
-                        </td>
-                        <td><?php echo $a['instansi']; ?></td>
-                        <td><?php echo $a['deskripsi']; ?></td>
-                    </tr>
-                    <?php
-                    $i++;
-                    }
-                    ?>
-                </tbody>
-            </table>
+            <form class="uk-form-stacked" action="fungsi/edit.php" method="POST">
+                <input type="hidden" name="id" value="<?php echo $data_instansi['id']; ?>">
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-stacked-text">Instansi</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="form-stacked-text" type="text" name="instansi" value="<?php echo $data_instansi['instansi']; ?>" placeholder="Instansi..." required>
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-stacked-select">Deskripsi</label>
+                    <div class="uk-form-controls">
+                        <textarea class="uk-textarea" rows="5" placeholder="Textarea" name="deskripsi" required><?php echo $data_instansi['deskripsi']; ?></textarea>
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <input type="submit" class='uk-button uk-button-primary' value="Tambah">
+                </div>
+
+            </form>
         </div>
     </div>
 </body>
